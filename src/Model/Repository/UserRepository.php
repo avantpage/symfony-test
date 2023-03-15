@@ -27,6 +27,7 @@ class UserRepository extends EntityRepository
 		$q
 			->select('u')
 			->orderBy("u.firstName", "ASC");
+
 		if (!empty($filter['first_name'])) {
 			$q->andWhere($q->expr()->eq('u.firstName', ':firstName'))
 				->setParameter('firstName', $filter['first_name']);
@@ -39,6 +40,18 @@ class UserRepository extends EntityRepository
 			$q->andWhere($q->expr()->eq('u.email', ':email'))
 				->setParameter('email', $filter['email']);
 		}
+
+		if (!empty($filter['search'])) {
+			$q->orWhere($q->expr()->like('LOWER(u.firstName)', ':firstName'))
+				->setParameter(':firstName', '%' . strtolower($filter['search']) . '%');
+
+			$q->orWhere($q->expr()->like('LOWER(u.lastName)', ':lastName'))
+				->setParameter(':lastName', '%' . strtolower($filter['search']) . '%');
+
+			$q->orWhere($q->expr()->like('LOWER(u.email)', ':email'))
+				->setParameter(':email', '%' . strtolower($filter['search']) . '%');
+		}
+
 		return $q->getQuery()->getResult(AbstractQuery::HYDRATE_OBJECT);
 	}
 }

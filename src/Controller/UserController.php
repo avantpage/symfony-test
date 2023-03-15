@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Handler\UserHandler;
+use App\Http\Filter\UserFilter;
 use App\Http\Request\ApiRequest;
 use App\Http\Request\UserCreateRequest;
 use App\Http\Request\UserListRequest;
@@ -33,7 +34,10 @@ class UserController extends AbstractController
 	{
 		try {
 			do {
+				
 				$requestObj = new UserListRequest($request->query->all());
+
+				
 				if (!$requestObj->isValid()) {
 					$response = $requestObj->getError();
 					break;
