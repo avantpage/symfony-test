@@ -5,6 +5,7 @@ namespace App\Controller;
 use Throwable;
 use App\Model\Entity\User;
 use App\Handler\UserHandler;
+use Psr\Log\LoggerInterface;
 use App\Http\Filter\UserFilter;
 use App\Http\Request\ApiRequest;
 use App\Http\Response\ApiResponse;
@@ -12,7 +13,6 @@ use App\Http\Response\ErrorResponse;
 use App\Http\Request\UserListRequest;
 use App\Http\Request\UserStoreRequest;
 use App\Http\Request\UserCreateRequest;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -24,12 +24,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
 	private UserHandler $userHandler;
-	private EntityManagerInterface $entityManager;
+	private LoggerInterface $logger;
 
-	public function __construct(UserHandler $userHandler,  EntityManagerInterface $entityManager)
-	{
+	public function __construct(
+		UserHandler $userHandler,  
+		LoggerInterface $logger
+	) {
 		$this->userHandler = $userHandler;
-		$this->entityManager = $entityManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -50,6 +52,7 @@ class UserController extends AbstractController
 			} while (0);
 		} catch (Throwable $thr) {
 			$response = new ErrorResponse($thr->getMessage());
+			$this->logger->error($response);
 		}
 
 		return $response;
@@ -71,6 +74,7 @@ class UserController extends AbstractController
 			} while (0);
 		} catch (Throwable $thr) {
 			$response = new ErrorResponse($thr->getMessage());
+			$this->logger->error($response);
 		}
 
 		return $response;
@@ -93,6 +97,7 @@ class UserController extends AbstractController
 			} while (0);
 		} catch (Throwable $thr) {
 			$response = new ErrorResponse($thr->getMessage());
+			$this->logger->error($response);
 		}
 
 		return $response;
@@ -114,6 +119,7 @@ class UserController extends AbstractController
 			} while (0);
 		} catch (Throwable $thr) {
 			$response = new ErrorResponse($thr->getMessage());
+			$this->logger->error($response);
 		}
 
 		return $response;
@@ -131,6 +137,7 @@ class UserController extends AbstractController
 			} while (0);
 		} catch (Throwable $thr) {
 			$response = new ErrorResponse($thr->getMessage());
+			$this->logger->error($response);
 		}
 
 		return $response;

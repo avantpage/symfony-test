@@ -10,6 +10,7 @@ use App\Model\Entity\Address;
 use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserHandler
@@ -17,14 +18,17 @@ class UserHandler
 
 	private EntityManagerInterface $em;
 	private UserRepository $userRepo;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		UserRepository         $userRepo,
 		EntityManagerInterface $em,
+		LoggerInterface $logger
 	)
 	{
 		$this->em = $em;
 		$this->userRepo = $userRepo;
+		$this->logger = $logger;
 	}
 
 	public function processList(array $dataRequest): ApiResponse
@@ -40,6 +44,7 @@ class UserHandler
 	{
 		$user = $this->userRepo->findByEmail($dataRequest['email']);
 		if ($user) {
+			$this->logger->info('Proccess Create: ' . ApiError::$descriptions[ApiError::CODE_EXISTS_EMAIL]);
 			return new ErrorResponse(ApiError::$descriptions[ApiError::CODE_EXISTS_EMAIL], Response::HTTP_NOT_FOUND, ApiError::CODE_EXISTS_EMAIL);
 		}
 
@@ -76,6 +81,7 @@ class UserHandler
 	{
 		$user = $this->userRepo->find($id);
 		if (!$user) {
+			$this->logger->info('Proccess Retrieve: ' . ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND]);
 			return new ErrorResponse(ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND], Response::HTTP_NOT_FOUND, ApiError::CODE_USER_NOT_FOUND);
 		}
 		return new UserResponse(
@@ -90,10 +96,12 @@ class UserHandler
 		$user = $this->userRepo->find($id);
 		
 		if (!$user) {
+			$this->logger->info('Proccess Store: ' . ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND]);
 			return new ErrorResponse(ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND], Response::HTTP_NOT_FOUND, ApiError::CODE_USER_NOT_FOUND);
 		}
 
 		if ($user->getEmail() === $dataRequest['email']) {
+			$this->logger->info('Proccess Store: ' . ApiError::$descriptions[ApiError::CODE_EXISTS_EMAIL]);
 			return new ErrorResponse(ApiError::$descriptions[ApiError::CODE_EXISTS_EMAIL], Response::HTTP_NOT_FOUND, ApiError::CODE_EXISTS_EMAIL);
 		}
 
@@ -109,7 +117,6 @@ class UserHandler
 			->setLastName(strip_tags($dataRequest['last_name']))
 			->setEmail(strip_tags($dataRequest['email']))
 			->setAddress($address);
-			
 		$this->em->persist($user);
 		$this->em->flush();
 		
@@ -124,6 +131,7 @@ class UserHandler
 	{
 		$user = $this->userRepo->find($id);
 		if (!$user) {
+			$this->logger->info('Proccess Delete: ' . ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND]);
 			return new ErrorResponse(ApiError::$descriptions[ApiError::CODE_USER_NOT_FOUND], Response::HTTP_NOT_FOUND, ApiError::CODE_USER_NOT_FOUND);
 		}
 
