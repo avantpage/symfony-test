@@ -9,6 +9,8 @@ class ApiError
 	// INVALID VALUES
 	public const CODE_INVALID_STRING = 'invalid_string';
 	public const CODE_INVALID_BOOL_VALUE = 'invalid_bool_value';
+	public const CODE_INVALID_EMAIL = 'invalid_email';
+	public const CODE_EXISTS_EMAIL = 'exists_email';
 
 	// MISSING FIELDS
 	public const CODE_FIRST_NAME_MISSING = 'missing_first_name';
@@ -22,6 +24,7 @@ class ApiError
 	public const CODE_FORBIDEN_EMPTY_REQUEST = 'forbiden_empty_request';
 
 	// LOGIC ERRORS
+	
 
 	// EXCEPTIONS
 	public const CODE_ENTITY_EXISTS = 'entity_already_exits';
@@ -38,6 +41,8 @@ class ApiError
 		self::CODE_ENTITY_EXISTS => 'The entity already exists.',
 		self::CODE_FORBIDEN_EMPTY_REQUEST => 'Empty request is not allowed.',
 		self::CODE_UNRECOGNIZED_PARAMETER => 'Parameter not recognized.',
+		self::CODE_INVALID_EMAIL => 'The email is invalid.',
+		self::CODE_EXISTS_EMAIL => 'The email already exists',
 		Response::HTTP_INTERNAL_SERVER_ERROR => 'Unexpected error.',
 	];
 }

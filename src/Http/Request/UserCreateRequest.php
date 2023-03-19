@@ -3,6 +3,7 @@
 namespace App\Http\Request;
 
 use App\Http\Error\ApiError;
+use App\Http\Validator\EmailValidator;
 use App\Http\Validator\StringValidator;
 
 class UserCreateRequest extends ApiRequest
@@ -16,7 +17,12 @@ class UserCreateRequest extends ApiRequest
 	protected array $validators = [
 		'first_name' => StringValidator::class,
 		'last_name' => StringValidator::class,
-		'email' => StringValidator::class
+		'email' => EmailValidator::class,
+		'street' => StringValidator::class,
+		'number' => StringValidator::class,
+		'city' => StringValidator::class,
+		'coutry' => StringValidator::class,
+		'zip_number' => StringValidator::class,
 	];
 
 	public function __construct(array $params)

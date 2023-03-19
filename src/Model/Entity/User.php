@@ -3,8 +3,11 @@
 namespace App\Model\Entity;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Comment;
+use App\Model\Entity\Address;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Table(name="user",
@@ -35,7 +38,7 @@ class User
 
 	/**
 	 * @var string
-	 * @ORM\Column(name="email",type="string", length=64, nullable=false)
+	 * @ORM\Column(name="email",type="string", length=64, nullable=false, unique=true)
 	 */
 	private string $email;
 
@@ -44,6 +47,11 @@ class User
 	 * @ORM\Column(name="is_active",type="boolean", nullable=false)
 	 */
 	private bool $isActive;
+
+	/**
+     * @ORM\OneToOne(targetEntity="Address", cascade={"all"})
+     */
+    private $address;
 
 	/**
 	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
@@ -127,4 +135,15 @@ class User
 		return $this;
 	}
 
+	public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
 }

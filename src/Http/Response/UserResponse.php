@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Response;
 
+use App\Http\Dto\AddressDto;
 use App\Http\Dto\UserDto;
+use App\Model\Entity\Address;
 use App\Model\Entity\User;
 
 class UserResponse extends ApiResponse
@@ -38,6 +40,13 @@ class UserResponse extends ApiResponse
 			$entity->getEmail(),
 			$entity->isIsActive(),
 			$entity->getCreatedAt()->format('Y-m-d'),
+			new AddressDto(
+				$entity->getAddress()->getStreet(),
+				$entity->getAddress()->getNumber(),
+				$entity->getAddress()->getCity(),
+				$entity->getAddress()->getCountry(),
+				$entity->getAddress()->getZipNumber()
+			)
 		);
 	}
 }

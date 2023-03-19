@@ -25,8 +25,9 @@ class UserRepository extends EntityRepository
 	{
 		$q = $this->createQueryBuilder('u');
 		$q
-			->select('u')
-			->orderBy("u.firstName", "ASC");
+			->select('u', 'a')
+			->leftJoin('u.address', 'a')
+			->orderBy("u.createdAt", "DESC");
 
 		if (!empty($filter['first_name'])) {
 			$q->andWhere($q->expr()->eq('u.firstName', ':firstName'))
