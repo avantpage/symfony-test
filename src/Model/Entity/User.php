@@ -7,11 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @ORM\Table(name="user",
- *    indexes={
- *           @ORM\Index(name="", columns={"created_at"}),
- *  })
  * @ORM\Entity
+ * @ORM\Table(name="`user`", indexes={@ORM\Index(name="idx_user_created_at", columns={"created_at"})})
  */
 class User
 {
@@ -22,26 +19,22 @@ class User
 	private string $id;
 
 	/**
-	 * @var string
 	 * @ORM\Column(name="first_name", type="string", length=30, nullable=false)
 	 */
 	private string $firstName;
 
 	/**
-	 * @var string
 	 * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
 	 */
 	private string $lastName;
 
 	/**
-	 * @var string
-	 * @ORM\Column(name="email",type="string", length=64, nullable=false)
+	 * @ORM\Column(name="email", type="string", length=64, nullable=false)
 	 */
 	private string $email;
 
 	/**
-	 * @var bool
-	 * @ORM\Column(name="is_active",type="boolean", nullable=false)
+	 * @ORM\Column(name="is_active", type="boolean", nullable=false)
 	 */
 	private bool $isActive;
 

@@ -23,7 +23,7 @@ class ApiResponse extends Response
 	/**
 	 * ApiResponse constructor.
 	 */
-	public function __construct(int $code = null, string $internalCode = null, string $message = null, $data = null)
+	public function __construct(?int $code = null, ?string $internalCode = null, ?string $message = null, $data = null)
 	{
 		$code = $code ?: Response::HTTP_OK;
 		$this->statusCode = $code;
@@ -41,7 +41,7 @@ class ApiResponse extends Response
 			}
 			$this->content = json_encode($this->dataResponse);
 		}
-		parent::__construct($this->content, $this->statusCode);
+		parent::__construct($this->content ?? '', $this->statusCode);
 	}
 
 	public function marshall($data = null)

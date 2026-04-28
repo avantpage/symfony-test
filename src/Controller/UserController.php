@@ -9,14 +9,11 @@ use App\Http\Request\UserListRequest;
 use App\Http\Response\ApiResponse;
 use App\Http\Response\ErrorResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Throwable;
 
-/**
- * @Route("/users")
- */
+#[Rest\Route('/users')]
 class UserController extends AbstractController
 {
 	private UserHandler $userHandler;
@@ -26,9 +23,7 @@ class UserController extends AbstractController
 		$this->userHandler = $userHandler;
 	}
 
-	/**
-	 * @Rest\Get("", name="user_list")
-	 */
+	#[Rest\Get('', name: 'user_list')]
 	public function getList(Request $request): ApiResponse
 	{
 		try {
@@ -47,9 +42,7 @@ class UserController extends AbstractController
 		return $response;
 	}
 
-	/**
-	 * @Rest\Post("", name="user_create")
-	 */
+	#[Rest\Post('', name: 'user_create')]
 	public function create(Request $request): ApiResponse
 	{
 		try {
@@ -69,9 +62,7 @@ class UserController extends AbstractController
 	}
 
 
-	/**
-	 * @Rest\Get("/{id}", name="user_retrieve")
-	 */
+	#[Rest\Get('/{id}', name: 'user_retrieve')]
 	public function retrieve(Request $request, string $id): ApiResponse
 	{
 		try {

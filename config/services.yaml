@@ -17,5 +17,10 @@ services:
         resource: '../src/'
         exclude: "../src/Model/{Entity,Migrations}"
 
+    annotation_reader:
+        class: Doctrine\Common\Annotations\AnnotationReader
+
+    Doctrine\Common\Annotations\Reader: '@annotation_reader'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ErrorResponse extends ApiResponse
 {
 
-	public function __construct(string $message = null, int $code = null, string $internalCode = null)
+	public function __construct(?string $message = null, ?int $code = null, ?string $internalCode = null)
 	{
 		$code = $code ?: Response::HTTP_INTERNAL_SERVER_ERROR;
 		$internalCode = $internalCode ?: ApiError::CODE_INTERNAL_ERROR;
