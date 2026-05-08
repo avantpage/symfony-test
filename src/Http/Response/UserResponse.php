@@ -24,7 +24,6 @@ class UserResponse extends ApiResponse
 		foreach ($list as $entity) {
 			$result[] = $this->createDto($entity);
 		}
-		$this->raw = $result;
 
 		return $result;
 	}
