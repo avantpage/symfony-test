@@ -13,7 +13,6 @@ class UserListRequest extends ApiRequest
 	protected array $validators = [
 		'first_name' => StringValidator::class,
 		'last_name' => StringValidator::class,
-		'email' => StringValidator::class
 	];
 
 	public function __construct(array $params)

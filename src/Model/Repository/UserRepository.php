@@ -35,10 +35,6 @@ class UserRepository extends EntityRepository
 			$q->andWhere($q->expr()->eq('u.lastName', ':lastName'))
 				->setParameter('lastName', $filter['last_name']);
 		}
-		if (!empty($filter['email'])) {
-			$q->andWhere($q->expr()->eq('u.email', ':email'))
-				->setParameter('email', $filter['email']);
-		}
 		return $q->getQuery()->getResult(AbstractQuery::HYDRATE_OBJECT);
 	}
 }
